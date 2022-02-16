@@ -1,12 +1,15 @@
 using API.Data;
+using API.Interfaces;
+using API.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlite(connectionString));
+
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddCors();
 
