@@ -24,6 +24,16 @@ services.AddSwaggerGen();
 
 var app = builder.Build();
 
+var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
+
+using (var scope = scopedFactory.CreateScope())
+{
+    var service = scope.ServiceProvider;
+    var context = service.GetRequiredService<DataContext>();
+    await context.Database.MigrateAsync();
+    await Seed.SeedUsers(context);
+}
+
 // Configure the HTTP request pipeline.
 app.UseMiddleware<ExceptionMiddleware>();
 
