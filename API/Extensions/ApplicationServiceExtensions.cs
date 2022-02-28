@@ -17,6 +17,7 @@ namespace API.Extensions
 
             services.AddDbContext<DataContext>(options => options.UseSqlite(connectionString));
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             return services;
         }
