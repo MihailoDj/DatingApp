@@ -1,0 +1,20 @@
+.img-thumbnail {
+    margin: 25px;
+    width: 85%;
+    height: 85%;
+    background-color: var(--pink);
+    border: 1px solid var(--pink);
+}
+
+.card-body {
+    padding: 0 25px;
+}
+
+.card-footer {
+    padding: 10px 15px;
+    border-top: none;
+}
+
+.btn-primary {
+    border-radius: 40px;
+}

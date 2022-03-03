@@ -1,1 +1,40 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --pink: #e83283;
+    --cyan: #39cbfb;
+  }
+
+.tab-panel {
+    border: 1px solid var(--pink);
+    padding: 10px;
+    border-radius: 4px;
+}
+
+
+.member-tabset > .nav-tabs > li.open > a, .member-tabset > .nav-tabs > li:hover > a {
+    border: 0;
+    background-color: var(--pink);
+}
+
+.member-tabset > .nav-tabs > li.open > a > i, .member-tabset > .nav-tabs > li:hover > a > i {
+    color: var(--pink);
+}
+
+.member-tabset > .nav-tabs > li.open .dropdown-menu, .member-tabset > .nav-tabs > li:hover .dropdown-menu {
+    margin-top: 0px;
+}
+
+.member-tabset > .nav-tabs > li.active {
+    position: relative;
+}
+
+.member-tabset > .nav-tabs > li.active > a{
+    border: 0 !important;
+}
+
+.member-tabset > .tab-content {
+    margin-top: -3px;
+    border: 0;
+    padding: 15px 0;
+}
+
+
