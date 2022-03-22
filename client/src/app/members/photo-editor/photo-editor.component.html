@@ -6,7 +6,13 @@
       class="img-thumbnail p-1"
     />
     <div class="text-center" style="margin-top: 5px">
-      <button class="btn btn-outline-info btn-sm" style="margin-right: 10px">
+      <button
+        [disabled]="photo.isMain"
+        [ngClass]='photo.isMain ? "btn-info active" : "btn-outline-info"'
+        (click)="setMainPhoto(photo)"
+        class="btn btn-sm"
+        style="margin-right: 10px"
+      >
         Main
       </button>
       <button class="btn btn-sm btn-primary">
