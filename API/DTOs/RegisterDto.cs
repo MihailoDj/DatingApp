@@ -10,9 +10,24 @@ namespace API.DTOs
     {
         [Required]
         public string Username { get; set; }
+        
+        [Required]
+        public string KnownAs { get; set; }
 
         [Required]
-        [StringLength(8, MinimumLength = 4)]
+        public string Gender { get; set; }
+
+        [Required]
+        public DateTime DateOfBirth { get; set; }
+
+        [Required]
+        public string City { get; set; }
+
+        [Required]
+        public string Country { get; set; }
+
+        [Required]
+        [StringLength(100, MinimumLength = 8)]
         public string Password { get; set; }
     }
 }
