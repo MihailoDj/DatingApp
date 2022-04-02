@@ -24,7 +24,8 @@ export class MembersService {
       .append('pageSize', userParams.pageSize.toString())
       .append('minAge', userParams.minAge.toString())
       .append('maxAge', userParams.maxAge.toString())
-      .append('gender', userParams.gender);
+      .append('gender', userParams.gender)
+      .append('orderBy', userParams.orderBy);
 
     return this.getPaginatedResult<Member[]>(this.baseUrl + 'users', params);
   }
