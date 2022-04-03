@@ -12,11 +12,27 @@ import { UserParams } from '../_models/userParams';
 export class MembersService {
   baseUrl: string = environment.apiUrl;
   members: Member[] = [];
+  memberCache = new Map();
 
   constructor(private http: HttpClient) {}
 
   getMembers(userParams: UserParams) {
-    //let params = this.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
+    var response = this.memberCache.get(Object.values(userParams).join('-'));
+
+    if (response) return of(response);
+
+    let params = this.formParamsQuery(userParams);
+
+    return this.getPaginatedResult<Member[]>(
+      this.baseUrl + 'users', params).pipe(
+        map((response) => {
+          this.memberCache.set(Object.values(userParams).join('-'), response);
+          return response;
+        })
+    );
+  }
+
+  formParamsQuery(userParams: UserParams) {
     let params = new HttpParams();
 
     params = params
@@ -27,7 +43,7 @@ export class MembersService {
       .append('gender', userParams.gender)
       .append('orderBy', userParams.orderBy);
 
-    return this.getPaginatedResult<Member[]>(this.baseUrl + 'users', params);
+    return params;
   }
 
   private getPaginatedResult<T>(url: string, params: HttpParams) {
@@ -46,15 +62,6 @@ export class MembersService {
         return paginatedResult;
       })
     );
-  }
-
-  private getPaginationHeaders(pageNumber: number, pageSize: number) {
-    let params = new HttpParams();
-
-    params = params.append('pageNumber', pageNumber.toString());
-    params = params.append('pageSize', pageSize.toString());
-
-    return params;
   }
 
   getMember(username: string) {
