@@ -16,13 +16,13 @@ export class MembersService {
   members: Member[] = [];
   memberCache = new Map();
   user: User;
-  userParams:UserParams;
+  userParams: UserParams;
 
   constructor(
     private http: HttpClient,
     private accountService: AccountService
   ) {
-    this.accountService.currentUser$.pipe(take(1)).subscribe(user => {
+    this.accountService.currentUser$.pipe(take(1)).subscribe((user) => {
       this.user = user;
       this.userParams = new UserParams(this.user);
     });
@@ -32,8 +32,8 @@ export class MembersService {
     return this.userParams;
   }
 
-  setUserParams(userParams:UserParams){
-    this.userParams= userParams;
+  setUserParams(userParams: UserParams) {
+    this.userParams = userParams;
   }
 
   resetUserParams() {
@@ -123,6 +123,8 @@ export class MembersService {
   }
 
   getLikes(predicate: string) {
-    return this.http.get(`${this.baseUrl}likes?=${predicate}`);
+    return this.http.get<Partial<Member[]>>(
+      `${this.baseUrl}likes?predicate=${predicate}`
+    );
   }
 }
