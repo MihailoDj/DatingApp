@@ -80,9 +80,9 @@ export class MembersService {
       map((response) => {
         paginatedResult.result = response.body;
 
-        if (response.headers.get('Pagination') !== null) {
+        if (response.headers.get('pagination') !== null) {
           paginatedResult.pagination = JSON.parse(
-            response.headers.get('Pagination')
+            response.headers.get('pagination')
           );
         }
 
@@ -122,9 +122,16 @@ export class MembersService {
     return this.http.post(`${this.baseUrl}likes/${username}`, {});
   }
 
-  getLikes(predicate: string) {
-    return this.http.get<Partial<Member[]>>(
-      `${this.baseUrl}likes?predicate=${predicate}`
+  getLikes(predicate: string, pageNumber: number, pageSize: number) {
+    let params = new HttpParams();
+    params = params
+      .append('pageNumber', pageNumber.toString())
+      .append('pageSize', pageSize.toString())
+      .append('predicate', predicate);
+
+    return this.getPaginatedResult<Partial<Member[]>>(
+      `${this.baseUrl}likes`,
+      params
     );
   }
 }
