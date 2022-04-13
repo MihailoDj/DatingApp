@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { map, of, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Member } from '../_models/member';
-import { PaginatedResult } from '../_models/pagination';
 import { User } from '../_models/user';
 import { UserParams } from '../_models/userParams';
 import { AccountService } from './account.service';
+import { getPaginatedResult } from './paginationHelper';
 
 @Injectable({
   providedIn: 'root',
@@ -48,9 +48,10 @@ export class MembersService {
 
     let params = this.formParamsQuery(userParams);
 
-    return this.getPaginatedResult<Member[]>(
+    return getPaginatedResult<Member[]>(
       this.baseUrl + 'users',
-      params
+      params,
+      this.http
     ).pipe(
       map((response) => {
         this.memberCache.set(Object.values(userParams).join('-'), response);
@@ -71,24 +72,6 @@ export class MembersService {
       .append('orderBy', userParams.orderBy);
 
     return params;
-  }
-
-  private getPaginatedResult<T>(url: string, params: HttpParams) {
-    const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
-
-    return this.http.get<T>(url, { observe: 'response', params }).pipe(
-      map((response) => {
-        paginatedResult.result = response.body;
-
-        if (response.headers.get('pagination') !== null) {
-          paginatedResult.pagination = JSON.parse(
-            response.headers.get('pagination')
-          );
-        }
-
-        return paginatedResult;
-      })
-    );
   }
 
   getMember(username: string) {
@@ -129,9 +112,10 @@ export class MembersService {
       .append('pageSize', pageSize.toString())
       .append('predicate', predicate);
 
-    return this.getPaginatedResult<Partial<Member[]>>(
+    return getPaginatedResult<Partial<Member[]>>(
       `${this.baseUrl}likes`,
-      params
+      params,
+      this.http
     );
   }
 }
