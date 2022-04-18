@@ -1,4 +1,4 @@
-<div *ngIf="member" class="row">
+<div class="row">
   <div class="col-4">
     <div class="card">
       <img
@@ -27,7 +27,7 @@
       <div class="card-footer">
         <div class="btn-group d-flex">
           <button class="btn btn-primary">Like</button>
-          <button class="btn btn-primary">Message</button>
+          <button class="btn btn-primary"(click)="selectTab(3)">Message</button>
         </div>
       </div>
     </div>
