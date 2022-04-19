@@ -14,6 +14,7 @@ export class MessagesComponent implements OnInit {
   container: string = 'Unread';
   pageNumber: number = 1;
   pageSize: number = 5;
+  loadingMessages: boolean = false;
 
   constructor(private messageService: MessageService) {}
 
@@ -22,11 +23,13 @@ export class MessagesComponent implements OnInit {
   }
 
   loadMessages() {
+    this.loadingMessages = true;
     this.messageService
       .getMessages(this.pageNumber, this.pageSize, this.container)
       .subscribe((response) => {
         this.messages = response.result;
         this.pagination = response.pagination;
+        this.loadingMessages = false;
       });
   }
 
