@@ -47,7 +47,7 @@
           ? '/members/' + message.recipientUsername
           : '/messages/' + message.senderUsername
       }}"
-      [queryParams]="{tab: 3}"
+      [queryParams]="{ tab: 3 }"
     >
       <td>{{ message.content }}</td>
       <td>
@@ -57,7 +57,7 @@
             src="{{ message.recipientPhotoUrl || './assets/user.png' }}"
             alt="{{ message.recipientUsername }}"
           />
-          <strong>   {{message.recipientUsername | titlecase}}</strong>
+          <strong> {{ message.recipientUsername | titlecase }}</strong>
         </div>
         <div *ngIf="container !== 'Outbox'">
           <img
@@ -65,28 +65,36 @@
             src="{{ message.senderPhotoUrl || './assets/user.png' }}"
             alt="{{ message.senderUsername }}"
           />
-          <strong>   {{message.senderUsername | titlecase}}</strong>
+          <strong> {{ message.senderUsername | titlecase }}</strong>
         </div>
       </td>
-      <td>{{message.dateSent | timeago}}</td>
+      <td>{{ message.dateSent | timeago }}</td>
       <td>
-          <button class="btn btn-danger">Delete</button>
+        <button
+          class="btn btn-danger"
+          (click)="deleteMessage(message.id)"
+          (click)="($event.stopPropagation())"
+        >
+          Delete
+        </button>
       </td>
     </tr>
   </table>
 </div>
 
-<div class="d-flex justify-content-center" *ngIf="pagination && !loadingMessages">
-    <pagination
-      [boundaryLinks]="true"
-      [totalItems]="pagination?.totalItems"
-      [itemsPerPage]="pagination?.itemsPerPage"
-      (pageChanged)="pageChanged($event)"
-      previousText="&lsaquo;"
-      nextText="&rsaquo;"
-      firstText="&laquo;"
-      lastText="&raquo;"
-    >
-    </pagination>
-  </div>
-  
+<div
+  class="d-flex justify-content-center"
+  *ngIf="pagination && !loadingMessages"
+>
+  <pagination
+    [boundaryLinks]="true"
+    [totalItems]="pagination?.totalItems"
+    [itemsPerPage]="pagination?.itemsPerPage"
+    (pageChanged)="pageChanged($event)"
+    previousText="&lsaquo;"
+    nextText="&rsaquo;"
+    firstText="&laquo;"
+    lastText="&raquo;"
+  >
+  </pagination>
+</div>
